@@ -1,0 +1,13 @@
+"ntsurf"
+{
+	"base"		"base"
+	"title"		"Open Surf"
+	"maps"		"^surf_"
+	"menusystem"	"1"
+	"workshopid"	"15895"
+
+	"settings"
+	{
+		
+	}
+}

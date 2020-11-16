@@ -9,6 +9,7 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 function ENT:SetupDataTables()
     self:NetworkVar("Bool", 0, "StartZone")
     self:NetworkVar("Bool", 1, "ShouldDrawBeams")
+    self:NetworkVar("Bool", 2, "ShouldDrawLines")
     self:NetworkVar("Vector", 0, "MinBounds")
     self:NetworkVar("Vector", 1, "MaxBounds")
 end
@@ -75,23 +76,24 @@ function ENT:DrawTranslucent(flags)
 
     local borderColor = Color(0,255,0,255)
 
-    local heightOffset = Vector(0,0,self:GetMaxBounds().z - groundOne.z)
+    if(self:GetShouldDrawLines()) then
+        local heightOffset = Vector(0,0,self:GetMaxBounds().z - groundOne.z)
+        -- TO-DO: Make less instense
+        render.DrawLine(groundOne + heightOffset, groundTwo + heightOffset, borderColor, true)
+        render.DrawLine(groundTwo + heightOffset, groundThree + heightOffset, borderColor, true)
+        render.DrawLine(groundThree + heightOffset, groundFour + heightOffset, borderColor, true)
+        render.DrawLine(groundFour + heightOffset, groundOne + heightOffset, borderColor, true)
 
-    -- TO-DO: Make less instense
-    render.DrawLine(groundOne + heightOffset, groundTwo + heightOffset, borderColor)
-    render.DrawLine(groundTwo + heightOffset, groundThree + heightOffset, borderColor)
-    render.DrawLine(groundThree + heightOffset, groundFour + heightOffset, borderColor)
-    render.DrawLine(groundFour + heightOffset, groundOne + heightOffset, borderColor)
+        render.DrawLine(groundOne, groundOne + heightOffset, borderColor, true)
+        render.DrawLine(groundTwo, groundTwo + heightOffset, borderColor, true)
+        render.DrawLine(groundThree, groundThree + heightOffset, borderColor, true)
+        render.DrawLine(groundFour, groundFour + heightOffset, borderColor, true)
 
-    render.DrawLine(groundOne, groundOne + heightOffset, borderColor)
-    render.DrawLine(groundTwo, groundTwo + heightOffset, borderColor)
-    render.DrawLine(groundThree, groundThree + heightOffset, borderColor)
-    render.DrawLine(groundFour, groundFour + heightOffset, borderColor)
-
-    render.DrawLine(groundOne, groundTwo, borderColor)
-    render.DrawLine(groundTwo, groundThree, borderColor)
-    render.DrawLine(groundThree, groundFour, borderColor)
-    render.DrawLine(groundFour, groundOne, borderColor)
+        render.DrawLine(groundOne, groundTwo, borderColor, true)
+        render.DrawLine(groundTwo, groundThree, borderColor, true)
+        render.DrawLine(groundThree, groundFour, borderColor, true)
+        render.DrawLine(groundFour, groundOne, borderColor, true)
+    end
 
     if(self.Material && self:GetShouldDrawBeams()) then
         render.SetMaterial(self.Material)

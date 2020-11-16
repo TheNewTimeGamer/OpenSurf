@@ -36,7 +36,8 @@ openSurfHud = {
     personalBestTime = 0,
     runStopped = true,
     worldRecordHolderTime = "00:00:00.00",
-    worldRecordHolderName = "Unknown"
+    worldRecordHolderName = "Unknown",
+    isSpectating = false
 }
 
 function openSurfHud:SetCurrentStartTime(time)
@@ -62,6 +63,12 @@ function openSurfHud:initialize()
             return false
         end        
         return true
+    end )
+
+    hook.Add( "HUDDrawTargetID", "OpenSurfTargetID", function()
+        if(self.isSpectating) then
+            return false
+        end
     end )
 
     hook.Add("HUDPaint", "OpenSurfHud", function()

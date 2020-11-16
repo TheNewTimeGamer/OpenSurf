@@ -27,3 +27,25 @@ chatCommands["!rtz"] = function(ply, strText, bTeam, bDead)
       
     spawnTriggerZones()
 end
+
+chatCommands["!spec"] = function(ply, strText, bTeam, bDead)
+    target = ply:GetObserverTarget()
+    if(IsValid(target)) then
+        ply:UnSpectate()
+        ply:Spawn()
+    else
+        players = ents.FindByClass("player_default")
+        target = GetFirstNonMatching(ply, players)
+        ply:Spectate(OBS_MODE_IN_EYE)
+        ply:SpectateEntity(target)
+    end
+end
+
+function GetFirstNonMatching(entity, entities)
+    for k, v in pairs(entities) do
+        if(v ~= entity) then
+            return v
+        end
+    end
+    return nil
+end

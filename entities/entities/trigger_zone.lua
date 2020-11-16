@@ -8,6 +8,7 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:SetupDataTables()
     self:NetworkVar("Bool", 0, "StartZone")
+    self:NetworkVar("Bool", 1, "ShouldDrawBeams")
     self:NetworkVar("Vector", 0, "MinBounds")
     self:NetworkVar("Vector", 1, "MaxBounds")
 end
@@ -64,7 +65,7 @@ function ENT:DrawTranslucent(flags)
     self:Draw(flags)
     
     groundOne = self:GetMinBounds()
-    groundOne = Vector(groundOne.x, groundOne.y, groundOne.z + 10)
+    groundOne = Vector(groundOne.x, groundOne.y, groundOne.z)
 
     groundThree = self:GetMaxBounds()
     groundThree = Vector(groundThree.x, groundThree.y, groundOne.z)
@@ -74,7 +75,7 @@ function ENT:DrawTranslucent(flags)
 
     local borderColor = Color(0,255,0,255)
 
-    local heightOffset = Vector(0,0,math.abs(self:GetMaxBounds().z))
+    local heightOffset = Vector(0,0,self:GetMaxBounds().z - groundOne.z)
 
     -- TO-DO: Make less instense
     render.DrawLine(groundOne + heightOffset, groundTwo + heightOffset, borderColor)
@@ -92,12 +93,14 @@ function ENT:DrawTranslucent(flags)
     render.DrawLine(groundThree, groundFour, borderColor)
     render.DrawLine(groundFour, groundOne, borderColor)
 
-    render.SetMaterial(self.Material)
-    render.StartBeam(5)
-    render.AddBeam(groundOne, 32, CurTime(), borderColor)
-    render.AddBeam(groundTwo, 32, CurTime(), borderColor)
-    render.AddBeam(groundThree, 32, CurTime(), borderColor)
-    render.AddBeam(groundFour, 32, CurTime(), borderColor)
-    render.AddBeam(groundOne, 32, CurTime(), borderColor)
-    render.EndBeam()
+    if(self.Material && self:GetShouldDrawBeams()) then
+        render.SetMaterial(self.Material)
+        render.StartBeam(5)
+        render.AddBeam(groundOne, 32, CurTime(), borderColor)
+        render.AddBeam(groundTwo, 32, CurTime(), borderColor)
+        render.AddBeam(groundThree, 32, CurTime(), borderColor)
+        render.AddBeam(groundFour, 32, CurTime(), borderColor)
+        render.AddBeam(groundOne, 32, CurTime(), borderColor)
+        render.EndBeam()
+    end
 end

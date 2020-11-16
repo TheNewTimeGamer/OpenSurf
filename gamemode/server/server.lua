@@ -23,3 +23,7 @@ function GM:InitPostEntity()
     print("Initializing OpenSurf Entities..")
 	spawnTriggerZones()
 end
+
+function GM:GetFallDamage(ply, speed)
+    return false
+end

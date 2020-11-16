@@ -18,3 +18,12 @@ end
 chatCommands["!rtv"] = function(ply, strText, bTeam, bDead)
     ply:ChatPrint("Rock the vote is currently disabled!")
 end
+
+chatCommands["!rtz"] = function(ply, strText, bTeam, bDead)
+    zones = ents.FindByClass( "trigger_zone" )
+    for k, v in pairs(zones) do
+        v:Remove()
+    end
+      
+    spawnTriggerZones()
+end

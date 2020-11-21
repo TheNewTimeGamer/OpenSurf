@@ -11,6 +11,16 @@ hook.Add( "PlayerSetModel", "OpenSurf.SetPlayerModel", function(ply)
     ply:SetRunSpeed(ply:GetWalkSpeed())
     ply:SetJumpPower(200)
     ply:SetNoCollideWithTeammates(true)
+
+    local localPlayerData = OpenSurfDataBase:ReadPlayerDataFromDisk(ply:SteamID64())
+    networking:SendLocalPLayerPersonalBest(ply)
+
+    local worldRecord = OpenSurfDataBase.worldRecord
+    local runTime = calculateRunDuration(OpenSurfDataBase:GetCurrentWorldRecord())
+    if(runTime) then
+        networking:SendLocalPlayerCurrentWorldRecord(ply, worldRecord.playerIndex, runTime)
+    end
+
 end )
 
 hook.Add( "PlayerSay", "OpenSurf.ChatCommands", function( ply, strText, bTeam, bDead ) 
@@ -21,6 +31,7 @@ end )
 
 function GM:InitPostEntity()
     print("Initializing OpenSurf Entities..")
+    OpenSurfDataBase:ReadMetaDataFromDisk()
 	spawnTriggerZones()
 end
 

@@ -41,6 +41,10 @@ chatCommands["!spec"] = function(ply, strText, bTeam, bDead)
     end
 end
 
+chatCommands["!dump"] = function(ply, strText, bTeam, bDead)
+    OpenSurfDataBase:WriteToDisk()
+end
+
 function GetFirstNonMatching(entity, entities)
     for k, v in pairs(entities) do
         if(v ~= entity) then

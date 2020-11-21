@@ -1,4 +1,7 @@
 function calculateRunDuration(times)
+    if(!times || !times.runEndTime || !times.runStartTime) then
+        return nil
+    end
     return times.runEndTime - times.runStartTime
 end
 
@@ -28,16 +31,28 @@ function OpenSurfDataBase:FinishPlayerRun(steamID64)
     local times = {runStartTime=self.players[steamID64].currentRunStart, runEndTime=endTime} -- TO-DO: IMplement multiple returns?
     if(self:IsValidRun(self.players[steamID64].Runs[dateStamp])) then
         if(self:CheckIfWorldRecord(steamID64, dateStamp)) then        
+            self.worldRecord.playerIndex = steamID64
+            self.worldRecord.runIndex = dateStamp
+            OpenSurfDataBase:WriteWorldRecordToDisk()
             networking:BroadcastNewWorldRecord(steamID64, calculateRunDuration(self.players[steamID64].Runs[dateStamp]))
         end
+    end
+    if(self:IsValidRun(times)) then
+        OpenSurfDataBase:WritePlayerDataToDisk(steamID64)
     end
     return times
 end
 
+function OpenSurfDataBase:GetCurrentWorldRecord()
+    local playerData = self.players[self.worldRecord.playerIndex]
+    if(!playerData) then
+        return nil
+    end
+    return playerData.Runs[self.worldRecord.runIndex]
+end
+
 function OpenSurfDataBase:CheckIfWorldRecord(steamID64, dateStamp)
-    if(!self.worldRecord.playerIndex || !self.worldRecord.runIndex) then
-        self.worldRecord.playerIndex = steamID64
-        self.worldRecord.runIndex = dateStamp
+    if(!self.worldRecord.playerIndex || !self.worldRecord.runIndex) then        
         return true
     else
         local recordHolderRun = self.players[self.worldRecord.playerIndex].Runs[self.worldRecord.runIndex]
@@ -78,13 +93,59 @@ function OpenSurfDataBase:GetPlayerPersonalBest(steamID64)
 end
 
 function OpenSurfDataBase:WriteToDisk()
-    -- TO-DO: Implement.
+    if(!file.IsDir("open_surf", "DATA")) then
+        file.CreateDir("open_surf")
+    end
+    
+    local map = game.GetMap()
+    if(!file.IsDir("open_surf/" .. map, "DATA")) then
+        file.CreateDir("open_surf/" .. map, "DATA")
+    end
+
+    if(!file.IsDir("open_surf/" .. map .."/players", "DATA")) then
+        file.CreateDir("open_surf/" .. map .. "/players")
+    end
+
+    OpenSurfDataBase:WriteWorldRecordToDisk()
+
+    for k, v in pairs(OpenSurfDataBase.players) do
+        print("Writing: " .. "open_surf/" .. map .. "/players/" .. k .. ".json")
+        content = util.TableToJSON(v, true)
+        file.Write("open_surf/" .. map .. "/players/" .. k .. ".json", content)
+    end
+
+end
+
+function OpenSurfDataBase:WriteWorldRecordToDisk()
+    content = util.TableToJSON(OpenSurfDataBase.worldRecord, true)
+    file.Write("open_surf/" .. game.GetMap() .. "/world_record.json", content)
+end
+
+function OpenSurfDataBase:WritePlayerDataToDisk(steamID64)
+    content = util.TableToJSON(OpenSurfDataBase.players[steamID64], true)
+    file.Write("open_surf/" .. game.GetMap() .. "/players/" .. steamID64 .. ".json", content)
 end
 
 function OpenSurfDataBase:ReadPlayerDataFromDisk(steamID64)
-    -- TO-DO: Implement.
+    print("Loading " .. steamID64 .. " From disk..")
+    local content = file.Read("open_surf/" .. game.GetMap() .. "/players/" .. steamID64 .. ".json", "DATA")
+    if(!content) then
+        return nil
+    end
+    local playerData = util.JSONToTable(content)
+    OpenSurfDataBase.players[steamID64] = playerData
+    print(OpenSurfDataBase.players[steamID64])
+    return playerData
 end
 
 function OpenSurfDataBase:ReadMetaDataFromDisk()
-    -- TO-DO: Implement.
+    print("open_surf: loading meta data from disk..")
+    local content = file.Read("open_surf/" .. game.GetMap() .. "/world_record.json", "DATA")
+    if(!content) then
+        return nil
+    end
+    local worldRecordData = util.JSONToTable(content)
+    OpenSurfDataBase.worldRecord = worldRecordData
+    print(OpenSurfDataBase.worldRecord)
+    return worldRecordData
 end

@@ -19,8 +19,17 @@ function networking:SendLocalPlayerStateSignal(ply, state, startTime, endTime)
 end
 
 function networking:SendLocalPLayerPersonalBest(ply)
+    print("Sending pb!")
     net.Start("LocalPlayerPersonalBest")
     net.WriteDouble(OpenSurfDataBase:GetPlayerPersonalBest(ply:SteamID64()), 32)
+    net.Send(ply)
+end
+
+function networking:SendLocalPlayerCurrentWorldRecord(ply, steamID64, runTime)
+    net.Start("ServerReportWorldRecord")
+    net.WriteInt(2, 8) -- 2 = Silent. Just update hud display.
+    net.WriteString(steamID64)
+    net.WriteDouble(runTime)
     net.Send(ply)
 end
 

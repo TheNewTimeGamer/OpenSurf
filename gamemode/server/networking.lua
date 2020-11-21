@@ -20,7 +20,6 @@ function networking:SendLocalPlayerStateSignal(ply, state, startTime, endTime)
 end
 
 function networking:SendLocalPLayerPersonalBest(ply)
-    print("Sending pb!")
     net.Start("LocalPlayerPersonalBest")
     net.WriteDouble(OpenSurfDataBase:GetPlayerPersonalBest(ply:SteamID64()), 32)
     net.Send(ply)

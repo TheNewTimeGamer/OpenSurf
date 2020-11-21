@@ -10,7 +10,7 @@ function secondsToTimeStamp(seconds)
 
     hours = math.floor(totalSeconds/3600)
     totalSeconds = totalSeconds - (hours * 360)
-    minutes = math.floor(totalSeconds / 60)
+    minutes = math.floor(totalSeconds / 60) - (hours * 60)
     totalSeconds = totalSeconds - (minutes * 60)
 
     if(hours < 10) then
@@ -33,6 +33,7 @@ function secondsToTimeStamp(seconds)
 end
 
 openSurfHud = {
+    trackedPlayer = LocalPlayer(),
     currentStartTime = 0,
     currentEndTime = 0,
     personalBestTime = 0,
@@ -74,7 +75,11 @@ function openSurfHud:initialize()
     end )
 
     hook.Add("HUDPaint", "OpenSurfHud", function()
-        local velocityVector = LocalPlayer():GetVelocity()
+        if(!IsValid(self.trackedPlayer)) then
+            self.trackedPlayer = LocalPlayer()
+            return
+        end
+        local velocityVector = self.trackedPlayer:GetVelocity()
         local velocityX = math.abs(velocityVector.x)
         local velocityY = math.abs(velocityVector.y)
         local velocity = math.sqrt(math.pow(velocityX, 2) + math.pow(velocityY, 2))

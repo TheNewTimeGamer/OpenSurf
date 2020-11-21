@@ -1,24 +1,7 @@
-Implement World Record.
-    - Do this check on completion of run.
-    - Save world record seperately so you don't have to loop through all the runs. (Maybe do check once in a while to be sure?)
-    - Display Server wide message (also networking) announcing a new world record.
-
-Save everything to disk.
-    - All runs players have completed.
-    - Maybe prepare for stuff like, time played and points.
-    - Admin stuff?
-    - Save in format so it can easily be used, including by external programs.
-
-Load stuff from disk.
-    - Load player data on login.
-    - Load World Record data. (Should be saved seperately, I.E: Not bound to player profile.)
-    - Limit memory usage, both on client and server.
-
 Create Scoreboard.
+Create (non-intrusive) map vote.
 
-Implement support for more maps. (Kitsun 1 next?)
-
-Ask Kevin for playtesting.
+Implement support for more maps.
 
 Try hosting on a Dedicated Server.
 
@@ -26,3 +9,15 @@ Replays? (A bit hard to implement but should be cool)
 
 Overal Code improvements. Specifically look at colon(:) and dot(.) functions.
 Where possible everything should be converted to colon(:) usage.
+
+Too fast message. (Hud)
+General Notification messages. (Hud)
+Broadcast messages. (Hud)
+
+Improve spectating
+
+Points for completing maps.
+
+A not-rediculous and straight forward point shop.
+
+Some Admin commands and privilages.

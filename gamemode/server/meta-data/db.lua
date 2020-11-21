@@ -118,11 +118,17 @@ end
 
 function OpenSurfDataBase:WriteWorldRecordToDisk()
     content = util.TableToJSON(OpenSurfDataBase.worldRecord, true)
+    if(!file.IsDir("open_surf/" .. game.GetMap(), "DATA")) then
+        file.CreateDir("open_surf/" .. game.GetMap())
+    end
     file.Write("open_surf/" .. game.GetMap() .. "/world_record.json", content)
 end
 
 function OpenSurfDataBase:WritePlayerDataToDisk(steamID64)
     content = util.TableToJSON(OpenSurfDataBase.players[steamID64], true)
+    if(!file.IsDir("open_surf/" .. game.GetMap() .. "/players", "DATA")) then
+        file.CreateDir("open_surf/" .. game.GetMap() .. "/players")
+    end
     file.Write("open_surf/" .. game.GetMap() .. "/players/" .. steamID64 .. ".json", content)
 end
 

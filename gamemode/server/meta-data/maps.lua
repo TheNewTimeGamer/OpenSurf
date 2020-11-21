@@ -1,4 +1,4 @@
---include("db.lua")
+-- TNTG
 
 function startPoint(minX,minY,minZ,maxX,maxY,maxZ,angle,shouldDrawBeams,shouldDrawLines)
     obj = {minX = minX, minY = minY, minZ = minZ, maxX = maxX, maxY = maxY, maxZ = maxZ, angle = angle, shouldDrawBeams = shouldDrawBeams,shouldDrawLines = shouldDrawLines}

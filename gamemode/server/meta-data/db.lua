@@ -1,3 +1,5 @@
+-- TNTG
+
 function calculateRunDuration(times)
     if(!times || !times.runEndTime || !times.runStartTime) then
         return nil
@@ -154,4 +156,8 @@ function OpenSurfDataBase:ReadMetaDataFromDisk()
     OpenSurfDataBase.worldRecord = worldRecordData
     print(OpenSurfDataBase.worldRecord)
     return worldRecordData
+end
+
+function OpenSurfDataBase:GetUniqueSignature()
+    return "P09" .. (math.random(0,1000)) .. "M0x3" -- Important, Used for db verification.
 end

@@ -1,3 +1,5 @@
+-- TNTG
+
 print("Server.lua")
 
 RunConsoleCommand("sv_gravity", "600")

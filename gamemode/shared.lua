@@ -1,7 +1,7 @@
 GM.Name = "Open Surf"
-GM.Author = "N/A"
+GM.Author = "TheNewTimeGamer"
 GM.Email = "N/A"
-GM.Website = "N/A"
+GM.Website = "newtimesoftware.com"
 
 DeriveGamemode( "base" )
 

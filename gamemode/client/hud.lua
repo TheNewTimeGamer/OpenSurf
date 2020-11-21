@@ -1,3 +1,5 @@
+-- TNTG
+
 function secondsToTimeStamp(seconds)
     if(seconds < 0) then
         return "00:00:00.00"

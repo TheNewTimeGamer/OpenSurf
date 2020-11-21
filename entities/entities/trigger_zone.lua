@@ -1,3 +1,5 @@
+-- TNTG
+
 AddCSLuaFile()
 
 ENT.Base = "trigger_zone"

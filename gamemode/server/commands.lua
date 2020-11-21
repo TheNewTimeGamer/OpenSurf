@@ -1,3 +1,5 @@
+-- TNTG
+
 chatCommands = {}
 chatCommands["!r"] = function(ply, strText, bTeam, bDead)
     local startPoint = maps[game.GetMap()].startPoint

@@ -46,9 +46,13 @@ end
 function ENT:EndTouch(entity)
     if(self:GetStartZone()) then
         local velocityVector = entity:GetVelocity()
-        local totalVelocity = math.abs(velocityVector.x) + math.abs(velocityVector.y) + math.abs(velocityVector.z)
-        if(totalVelocity > 500) then
-            entity:SetPos(self:GetPos())
+        local velocityX = math.abs(velocityVector.x)
+        local velocityY = math.abs(velocityVector.y)
+        local velocity = math.sqrt(math.pow(velocityX, 2) + math.pow(velocityY, 2))
+        if(velocity > 500) then
+            velocityVector.z = 0
+            local normalized = velocityVector:GetNormalized()
+            entity:SetVelocity((entity:GetVelocity() * -1) + (normalized * 500))
         end
 
         networking:SendLocalPlayerStateSignal(entity, 1)
@@ -72,7 +76,7 @@ function ENT:DrawTranslucent(flags)
     local borderColor = Color(0,255,0,255)
 
     if(self:GetShouldDrawLines()) then
-        local heightOffset = Vector(0,0,50)
+        local heightOffset = Vector(0,0,dimensions.z)
 
         -- Bottom
         render.DrawLine(groundOne, groundTwo, borderColor, true)

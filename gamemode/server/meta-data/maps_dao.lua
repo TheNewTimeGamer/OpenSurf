@@ -7,7 +7,7 @@ function OpenSurfDataBase:InsertMap(id, mapName, metaData)
 end
 
 function OpenSurfDataBase:UpdateMap(mapName, metaData)
-    return sql.Query("UPDATE opensurf_maps SET meta_data '" .. metaData .. "' WHERE name = '" .. mapName .. "'")
+    return sql.Query("UPDATE opensurf_maps SET meta_data = '" .. metaData .. "' WHERE name = '" .. mapName .. "'")
 end
 
 function OpenSurfDataBase:GetMap(mapName)

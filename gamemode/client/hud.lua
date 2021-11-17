@@ -127,7 +127,11 @@ function openSurfHud:initialize()
         surface.SetFont("OpenSurfFontSmall")
         surface.SetTextColor(255,255,255,255)
         surface.SetTextPos(8,38)
-        surface.DrawText("World Record: " .. openSurfHud.worldRecordHolderTime .. " by " .. openSurfHud.worldRecordHolderName, false)
+        if(openSurfHud.worldRecordHolderTime == "00:00:00.00") then
+            surface.DrawText("No world record yet!", false)
+        else
+            surface.DrawText("World Record: " .. openSurfHud.worldRecordHolderTime .. " by " .. openSurfHud.worldRecordHolderName, false)
+        end
     end )
 
 end

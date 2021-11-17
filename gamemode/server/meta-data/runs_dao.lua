@@ -7,7 +7,7 @@ function OpenSurfDataBase:DeleteMap(mapName)
 end
 
 function OpenSurfDataBase:InsertRun(id, steamId, startTime, endTime, mapName, category, date)
-    return sql.Query("INSERT INTO opensurf_runs VALUES(" .. id .. ", '" .. steamId .. "', " .. startTime .. ", " .. endTime .. ", '" .. mapName .. "', " .. category .. ", " .. date .. ")")
+    return sql.Query("INSERT INTO opensurf_runs VALUES(" .. id .. ", '" .. steamId .. "', " .. startTime .. ", " .. endTime .. ", '" .. mapName .. "', " .. category .. ", '" .. date .. "')")
 end
 
 function OpenSurfDataBase:UpdateRun(startTime, endTime, mapName, category)
@@ -19,7 +19,7 @@ function OpenSurfDataBase:DeleteRun(id)
 end
 
 function OpenSurfDataBase:GetWorldRecord(mapName, category)
-    return sql.Query("SELECT * FROM opensurf_runs WHERE map = '" .. mapName .. "' AND category = " .. category .. " ORDER BY SUM(end_time - start_time) ASC LIMIT 1")
+    return sql.Query("SELECT * FROM opensurf_runs WHERE map = '" .. mapName .. "' AND category = " .. category .. " ORDER BY end_time - start_time ASC LIMIT 1")
 end
 
 function OpenSurfDataBase:GetPersonalBest(steamId, mapName, category)

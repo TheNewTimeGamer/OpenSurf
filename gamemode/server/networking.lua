@@ -21,23 +21,23 @@ end
 
 function networking:SendLocalPlayerPersonalBest(ply)
     local personalBest = OpenSurfDataBase:GetPersonalBest(ply:SteamID64(), game.GetMap(), 0)
-    if(!personalBest) then
+    if(!personalBest or !personalBest[1]) then
         return
     end
     net.Start("LocalPlayerPersonalBest")
-    net.WriteDouble(personalBest, 32)
+    net.WriteDouble(personalBest[1].end_time - personalBest[1].start_time, 32)
     net.Send(ply)
 end
 
 function networking:SendLocalPlayerCurrentWorldRecord(ply)
     local worldRecord = OpenSurfDataBase:GetWorldRecord(game.GetMap(), 0)
-    if(!worldRecord) then
+    if(!worldRecord or !worldRecord[1]) then
         return
     end
     net.Start("ServerReportWorldRecord")
     net.WriteInt(2, 8) -- 2 = Silent. Just update hud display.
-    net.WriteString(worldRecord.steam_id)
-    net.WriteDouble(worldRecord.end_time - worldRecord.start_time)
+    net.WriteString(worldRecord[1].steam_id)
+    net.WriteDouble(worldRecord[1].end_time - worldRecord[1].start_time)
     net.Send(ply)
 end
 

@@ -16,14 +16,14 @@ hook.Add( "PlayerSetModel", "OpenSurf.SetPlayerModel", function(ply)
     networking:SendLocalPlayerCurrentWorldRecord(ply)
 end )
 
-hook.Add( "PlayerSay", "OpenSurf.ChatCommands", function( ply, strText, bTeam, bDead ) 
-    if(chatCommands[strText]) then
-        return chatCommands[strText](ply, strText, bTeam, bDead)
+hook.Add( "PlayerSay", "OpenSurf.ChatCommands", function( ply, strText, bTeam, bDead )
+    local args = string.Split(strText, " ")
+    if(chatCommands[args[1]]) then
+        return chatCommands[args[1]](ply, args, bTeam, bDead)
     end
 end )
 
 function GM:InitPostEntity()
-    print("Initializing OpenSurf Entities..")
 	OpenSurfMap:spawnTriggerZones()
 end
 

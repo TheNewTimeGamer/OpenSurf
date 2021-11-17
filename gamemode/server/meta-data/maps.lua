@@ -1,65 +1,38 @@
 -- TNTG
 
-function startPoint(minX,minY,minZ,maxX,maxY,maxZ,angle,shouldDrawBeams,shouldDrawLines)
-    obj = {minX = minX, minY = minY, minZ = minZ, maxX = maxX, maxY = maxY, maxZ = maxZ, angle = angle, shouldDrawBeams = shouldDrawBeams,shouldDrawLines = shouldDrawLines}
-    function obj:GetCenter()
-        return Vector(minX + (maxX-minX)/2, minY + (maxY-minY)/2, minZ + (maxZ-minZ)/2)
-    end
-    function obj:GetCenterFloor()
-        return Vector(minX + (maxX-minX)/2, minY + (maxY-minY)/2, minZ)
-    end
-    return obj
-end
+OpenSurfMap = util.JSONToTable(OpenSurfDataBase:GetMap(game.GetMap())[1].meta_data)
+OpenSurfMap.trigger_zone_start = nil
+OpenSurfMap.trigger_zone_end = nil
 
-function endPoint(minX,minY,minZ,maxX,maxY,maxZ,angle,shouldDrawBeams,shouldDrawLines)
-    return startPoint(minX,minY,minZ,maxX,maxY,maxZ,angle,shouldDrawBeams,shouldDrawLines)
-end
+function OpenSurfMap:spawnTriggerZones()
+    if(!self.start_point) then print("Missing map start_point.") return end
+    if(!self.end_point) then print("Missing map end_point.") return end
 
-function map(startPoint,endPoint)
-    return {startPoint=startPoint, endPoint=endPoint}
-end
+    self.trigger_zone_end = ents.Create("trigger_zone")
 
-maps = {}
-maps["surf_beginner"] = map(
-    startPoint(-440, 250, 320, 180, -50, 400, 90, true, true),
-    endPoint(-6067, 4876, -263, -4556, 5230, -63, 90, true, true)
-)
+    local endPoint = OpenSurfMap.end_point;
 
-maps["surf_kitsune"] = map(
-    startPoint(-247, -946, 100, 248, -613, 200, 0, false, true),
-    endPoint(-16036, 10554, -11935, -15553, 9829, -11771, 0, false, true)
-)
+    self.trigger_zone_end:SetPos(Vector(endPoint.x, endPoint.y, endPoint.z))
+    self.trigger_zone_end:SetShouldDrawBeams(endPoint.drawBeams)
+    self.trigger_zone_end:SetShouldDrawLines(endPoint.drawLines)
 
-function spawnTriggerZones()
-    ent = ents.Create("trigger_zone")
-
-    local endPoint = maps[game.GetMap()].endPoint;
-    local minBounds = Vector(endPoint.minX, endPoint.minY, endPoint.minZ)
-    local maxBounds = Vector(endPoint.maxX, endPoint.maxY, endPoint.maxZ)
-
-    ent:SetPos(endPoint:GetCenter())
-    ent:SetShouldDrawBeams(endPoint.shouldDrawBeams)
-    ent:SetShouldDrawLines(endPoint.shouldDrawLines)
-
-    ent:SetStartZone(false)
-    ent:SetMinBounds(minBounds)
-    ent:SetMaxBounds(maxBounds)
-    ent:Spawn()
+    self.trigger_zone_end:SetStartZone(false)
+    self.trigger_zone_end:SetPosition(Vector(endPoint.x, endPoint.y, endPoint.z))
+    self.trigger_zone_end:SetDimensions(Vector(endPoint.width, endPoint.depth, endPoint.height))
+    self.trigger_zone_end:Spawn()
 
     ---------------------------------------------------------------------
 
-    ent = ents.Create("trigger_zone")
+    self.trigger_zone_start = ents.Create("trigger_zone")
 
-    local startPoint = maps[game.GetMap()].startPoint;
-    local minBounds = Vector(startPoint.minX, startPoint.minY, startPoint.minZ)
-    local maxBounds = Vector(startPoint.maxX, startPoint.maxY, startPoint.maxZ)
+    local startPoint = OpenSurfMap.start_point;
 
-    ent:SetPos(startPoint:GetCenter())
-    ent:SetShouldDrawBeams(startPoint.shouldDrawBeams)
-    ent:SetShouldDrawLines(startPoint.shouldDrawLines)
+    self.trigger_zone_start:SetPos(Vector(startPoint.x, startPoint.y, startPoint.z))
+    self.trigger_zone_start:SetShouldDrawBeams(startPoint.drawBeams)
+    self.trigger_zone_start:SetShouldDrawLines(startPoint.drawLines)
 
-    ent:SetStartZone(true)
-    ent:SetMinBounds(minBounds)
-    ent:SetMaxBounds(maxBounds)
-    ent:Spawn()
+    self.trigger_zone_start:SetStartZone(true)
+    self.trigger_zone_start:SetPosition(Vector(endPoint.x, endPoint.y, endPoint.z))
+    self.trigger_zone_start:SetDimensions(Vector(endPoint.width, endPoint.depth, endPoint.height))
+    self.trigger_zone_start:Spawn()
 end

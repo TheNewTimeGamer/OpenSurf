@@ -1,4 +1,4 @@
-"ntsurf"
+"opensurf"
 {
 	"base"		"base"
 	"title"		"Open Surf"

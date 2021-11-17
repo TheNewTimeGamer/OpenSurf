@@ -2,18 +2,17 @@
 
 chatCommands = {}
 chatCommands["!r"] = function(ply, strText, bTeam, bDead)
-    local startPoint = maps[game.GetMap()].startPoint
-    ply:SetPos(startPoint:GetCenterFloor())
+    PrintTable(OpenSurfMap)
+    ply:SetPos(OpenSurfMap.trigger_zone_start:GetPos())
     ply:SetVelocity(ply:GetVelocity()*-1)
-    ply:SetEyeAngles(Angle(0,startPoint.angle,0))
+    ply:SetEyeAngles(Angle(0,OpenSurfMap.trigger_zone_start.angle,0))
     return ""
 end
 
 chatCommands["!t"] = function(ply, strText, bTeam, bDead)
-    local endPoint = maps[game.GetMap()].endPoint
-    ply:SetPos(endPoint:GetCenterFloor())
+    ply:SetPos(OpenSurfMap.trigger_zone_end:GetPos())
     ply:SetVelocity(ply:GetVelocity()*-1)
-    ply:SetEyeAngles(Angle(0,endPoint.angle,0))
+    ply:SetEyeAngles(Angle(0,OpenSurfMap.trigger_zone_end.angle,0))
     return ""
 end
 
@@ -27,7 +26,7 @@ chatCommands["!rtz"] = function(ply, strText, bTeam, bDead)
         v:Remove()
     end
       
-    spawnTriggerZones()
+    OpenSurfMap:spawnTriggerZones()
 end
 
 chatCommands["!spec"] = function(ply, strText, bTeam, bDead)
@@ -41,10 +40,6 @@ chatCommands["!spec"] = function(ply, strText, bTeam, bDead)
         ply:Spectate(OBS_MODE_IN_EYE)
         ply:SpectateEntity(target)
     end
-end
-
-chatCommands["!dump"] = function(ply, strText, bTeam, bDead)
-    OpenSurfDataBase:WriteToDisk()
 end
 
 function GetFirstNonMatching(entity, entities)

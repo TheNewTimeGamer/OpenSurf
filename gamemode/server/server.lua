@@ -1,7 +1,5 @@
 -- TNTG
 
-print("Server.lua")
-
 RunConsoleCommand("sv_gravity", "600")
 RunConsoleCommand("sv_airaccelerate", "1000")
 RunConsoleCommand("sv_sticktoground", "0")
@@ -14,15 +12,8 @@ hook.Add( "PlayerSetModel", "OpenSurf.SetPlayerModel", function(ply)
     ply:SetJumpPower(200)
     ply:SetNoCollideWithTeammates(true)
 
-    local localPlayerData = OpenSurfDataBase:ReadPlayerDataFromDisk(ply:SteamID64())
-    networking:SendLocalPLayerPersonalBest(ply)
-
-    local worldRecord = OpenSurfDataBase.worldRecord
-    local runTime = calculateRunDuration(OpenSurfDataBase:GetCurrentWorldRecord())
-    if(runTime) then
-        networking:SendLocalPlayerCurrentWorldRecord(ply, worldRecord.playerIndex, runTime)
-    end
-
+    networking:SendLocalPlayerPersonalBest(ply)
+    networking:SendLocalPlayerCurrentWorldRecord(ply)
 end )
 
 hook.Add( "PlayerSay", "OpenSurf.ChatCommands", function( ply, strText, bTeam, bDead ) 
@@ -33,10 +24,13 @@ end )
 
 function GM:InitPostEntity()
     print("Initializing OpenSurf Entities..")
-    OpenSurfDataBase:ReadMetaDataFromDisk()
-	spawnTriggerZones()
+	OpenSurfMap:spawnTriggerZones()
 end
 
 function GM:GetFallDamage(ply, speed)
     return false
+end
+
+function GM:PlayerNoClip(ply, desiredState)
+    return true
 end

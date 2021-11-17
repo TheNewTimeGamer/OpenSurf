@@ -14,6 +14,11 @@ hook.Add( "PlayerSetModel", "OpenSurf.SetPlayerModel", function(ply)
 
     networking:SendLocalPlayerPersonalBest(ply)
     networking:SendLocalPlayerCurrentWorldRecord(ply)
+
+    if(OpenSurfMap.trigger_zone_start_center) then
+        ply:SetPos(OpenSurfMap.trigger_zone_start_center)
+        ply:SetEyeAngles((OpenSurfMap.trigger_zone_start_angles))
+    end
 end )
 
 hook.Add( "PlayerSay", "OpenSurf.ChatCommands", function( ply, strText, bTeam, bDead )

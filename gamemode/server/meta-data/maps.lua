@@ -4,6 +4,7 @@ OpenSurfMap = util.JSONToTable(OpenSurfDataBase:GetMap(game.GetMap())[1].meta_da
 OpenSurfMap.trigger_zone_start = nil
 OpenSurfMap.trigger_zone_end = nil
 OpenSurfMap.trigger_zone_start_center = nil -- TODO: Add nicer way of storing this.
+OpenSurfMap.trigger_zone_start_angles = nil
 
 function OpenSurfMap:spawnTriggerZones()
     if(!self.start_point) then print("Missing map start_point.") return end
@@ -36,5 +37,6 @@ function OpenSurfMap:spawnTriggerZones()
     self.trigger_zone_start:SetPosition(Vector(startPoint.x, startPoint.y, startPoint.z))
     self.trigger_zone_start:SetDimensions(Vector(startPoint.width, startPoint.depth, startPoint.height))
     self.trigger_zone_start_center = Vector(startPoint.x + startPoint.width / 2, startPoint.y + startPoint.depth / 2, startPoint.z)
+    self.trigger_zone_start_angles = Angle(0,startPoint.angle,0)
     self.trigger_zone_start:Spawn()
 end

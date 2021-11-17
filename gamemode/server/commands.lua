@@ -4,7 +4,7 @@ chatCommands = {}
 chatCommands["!r"] = function(ply, strText, bTeam, bDead)
     ply:SetPos(OpenSurfMap.trigger_zone_start_center)
     ply:SetVelocity(ply:GetVelocity()*-1)
-    ply:SetEyeAngles(Angle(0,OpenSurfMap.trigger_zone_start.angle,0))
+    ply:SetEyeAngles(OpenSurfMap.trigger_zone_start_angles,0)
     return ""
 end
 
@@ -48,6 +48,10 @@ end
 chatCommands["!setstartdepth"] = function(ply, strText, bTeam, bDead)
     local pos = ply:GetEyeTrace()
     OpenSurfMap.start_point.depth = strText[2]
+end
+
+chatCommands["!setstartangle"] = function(ply, strText, bTeam, bDead)
+    OpenSurfMap.start_point.angle = strText[2]
 end
 
 chatCommands["!setendwidth"] = function(ply, strText, bTeam, bDead)

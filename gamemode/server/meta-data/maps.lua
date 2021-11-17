@@ -32,7 +32,7 @@ function OpenSurfMap:spawnTriggerZones()
     self.trigger_zone_start:SetShouldDrawLines(startPoint.drawLines)
 
     self.trigger_zone_start:SetStartZone(true)
-    self.trigger_zone_start:SetPosition(Vector(endPoint.x, endPoint.y, endPoint.z))
-    self.trigger_zone_start:SetDimensions(Vector(endPoint.width, endPoint.depth, endPoint.height))
+    self.trigger_zone_start:SetPosition(Vector(startPoint.x, startPoint.y, startPoint.z))
+    self.trigger_zone_start:SetDimensions(Vector(startPoint.width, startPoint.depth, startPoint.height))
     self.trigger_zone_start:Spawn()
 end

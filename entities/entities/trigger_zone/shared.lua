@@ -91,7 +91,6 @@ function ENT:DrawTranslucent(flags)
         render.DrawLine(groundTwo,   groundTwo   + heightOffset, borderColor, true)
         render.DrawLine(groundThree, groundThree + heightOffset, borderColor, true)
         render.DrawLine(groundFour,  groundFour  + heightOffset, borderColor, true)
-
     end
 
     if(self.Material and self:GetShouldDrawBeams()) then

@@ -2,10 +2,12 @@
 
 include( "shared.lua" )
 include( "client/autobhop.lua")
-include( "client/hud.lua" )
+include( "client/hud/hud.lua" )
+include( "client/hud/rtv.lua" )
 include( "client/networking.lua" )
+include( "client/thirdperson.lua" )
 
 
 hook.Add( "InitPostEntity", "OpenSurf.PostInitialization", function()
-	openSurfHud:initialize()	
+	OpenSurfHud:initialize()
 end )

@@ -34,10 +34,13 @@ end
 function OpenSurfDataBase:CheckNewWorldRecord(steamID64, startTime, endTime, map)
     local worldRecord = OpenSurfDataBase:GetWorldRecord(map, 0)
     local playerTime = endTime - startTime
-    if(worldRecord and !worldRecord[1]) then 
+    print("checking world record")
+    if(worldRecord and worldRecord[1]) then 
         local worldRecordTime = worldRecord[1].end_time - worldRecord[1].start_time
+        print("found world record with with time: " .. worldRecordTime)
         if(playerTime >= worldRecordTime) then return end
     end
+    print("player time: " .. playerTime)
     networking:BroadcastNewWorldRecord(steamID64, playerTime) -- TODO: Add categories.
 end
 

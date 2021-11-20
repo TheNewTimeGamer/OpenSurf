@@ -32,7 +32,7 @@ function secondsToTimeStamp(seconds)
     return hours .. ":" .. minutes .. ":" .. totalSeconds .. "." .. decimals
 end
 
-openSurfHud = {
+OpenSurfHud = {
     trackedPlayer = LocalPlayer(),
     currentStartTime = 0,
     currentEndTime = 0,
@@ -40,14 +40,17 @@ openSurfHud = {
     runStopped = true,
     worldRecordHolderTime = "00:00:00.00",
     worldRecordHolderName = "Unknown",
-    isSpectating = false
+    isSpectating = false,
+    isSpectatingThirdPerson = false,
+    spectateIndex = 0,
+    isThirdperson = false,
 }
 
-function openSurfHud:SetCurrentStartTime(time)
+function OpenSurfHud:SetCurrentStartTime(time)
     self.currentStartTime = CurTime()
 end
 
-function openSurfHud:initialize()
+function OpenSurfHud:initialize()
     surface.CreateFont("OpenSurfFontNormal",{
         font = "CenterPrintText",
         size = 24,
@@ -87,7 +90,7 @@ function openSurfHud:initialize()
         if(factor > 1.0) then
             factor = 1.0
         end
-
+        
         surface.SetFont("OpenSurfFontNormal")
         surface.SetTextColor(255,255,255,255)
         surface.SetTextPos(34,surface.ScreenHeight()-128)
@@ -127,10 +130,10 @@ function openSurfHud:initialize()
         surface.SetFont("OpenSurfFontSmall")
         surface.SetTextColor(255,255,255,255)
         surface.SetTextPos(8,38)
-        if(openSurfHud.worldRecordHolderTime == "00:00:00.00") then
+        if(OpenSurfHud.worldRecordHolderTime == "00:00:00.00") then
             surface.DrawText("No world record yet!", false)
         else
-            surface.DrawText("World Record: " .. openSurfHud.worldRecordHolderTime .. " by " .. openSurfHud.worldRecordHolderName, false)
+            surface.DrawText("World Record: " .. OpenSurfHud.worldRecordHolderTime .. " by " .. OpenSurfHud.worldRecordHolderName, false)
         end
     end )
 

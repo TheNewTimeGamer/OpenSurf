@@ -2,8 +2,10 @@
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "client/autobhop.lua" )
-AddCSLuaFile( "client/hud.lua" )
+AddCSLuaFile( "client/hud/hud.lua" )
+AddCSLuaFile( "client/hud/rtv.lua" )
 AddCSLuaFile( "client/networking.lua")
+AddCSLuaFile( "client/thirdperson.lua")
 
 AddCSLuaFile( "shared.lua" )
 

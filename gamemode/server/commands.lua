@@ -87,17 +87,23 @@ chatCommands["!spec"] = function(ply, strText, bTeam, bDead)
         ply:Spawn()
     else
         players = ents.FindByClass("player_default")
-        target = GetFirstNonMatching(ply, players)
+        target = GetFirstNonMatching(ply, players, 0)
+        if(target == nil) then
+            ply:ChatPrint("No players to spectate!")
+            return ""
+        end
         ply:Spectate(OBS_MODE_IN_EYE)
         ply:SpectateEntity(target)
     end
 end
 
-function GetFirstNonMatching(entity, entities)
+function GetFirstNonMatching(entity, entities, skip)
+    local internalCounter = 0
     for k, v in pairs(entities) do
-        if(v ~= entity) then
+        if(v ~= entity and (skip-internalCounter) > 0) then
             return v
         end
+        internalCounter = internalCounter + 1
     end
     return nil
 end

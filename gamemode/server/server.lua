@@ -39,3 +39,7 @@ end
 function GM:PlayerNoClip(ply, desiredState)
     return true
 end
+
+function GM:ShowSpare1(ply)
+    networking:ToggleLocalPlayerScreenClicker(ply)
+end

@@ -50,3 +50,8 @@ net.Receive("ServerReportWorldRecord", function()
         OpenSurfHud.worldRecordHolderName = playerName
     end )
 end )
+
+net.Receive("ToggleLocalPlayerScreenClicker", function()
+    OpenSurfHud.isScreenClickerEnabled = !OpenSurfHud.isScreenClickerEnabled
+    gui.EnableScreenClicker(OpenSurfHud.isScreenClickerEnabled)
+end )

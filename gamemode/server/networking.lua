@@ -9,6 +9,8 @@ util.AddNetworkString("LocalPlayerPersonalBest")
 
 util.AddNetworkString("ServerReportWorldRecord")
 
+util.AddNetworkString("ToggleLocalPlayerScreenClicker")
+
 function networking:SendLocalPlayerStateSignal(ply, state, startTime, endTime)
     net.Start("LocalPlayerStateSignal")
     net.WriteInt(state, 8)
@@ -47,4 +49,19 @@ function networking:BroadcastNewWorldRecord(steamID64, runTime)
     net.WriteString(steamID64)
     net.WriteDouble(runTime)
     net.Broadcast()
+end
+
+function networking:BroadcastRockTheVote()
+    -- TODO: Implement.
+end
+
+-- Used when rock the vote has already been broadcasted but a new player joins.
+function networking:SendLocalPlayerRockTheVote()
+    -- TODO: Implement.
+end
+
+function networking:ToggleLocalPlayerScreenClicker(ply)
+    net.Start("ToggleLocalPlayerScreenClicker")
+    net.WriteInt(1, 8)
+    net.Send(ply)
 end

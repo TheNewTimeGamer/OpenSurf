@@ -44,6 +44,7 @@ OpenSurfHud = {
     isSpectatingThirdPerson = false,
     spectateIndex = 0,
     isThirdperson = false,
+    isScreenClickerEnabled = false
 }
 
 function OpenSurfHud:SetCurrentStartTime(time)
@@ -82,6 +83,7 @@ function OpenSurfHud:initialize()
             self.trackedPlayer = LocalPlayer()
             return
         end
+
         local velocityVector = self.trackedPlayer:GetVelocity()
         local velocityX = math.abs(velocityVector.x)
         local velocityY = math.abs(velocityVector.y)
